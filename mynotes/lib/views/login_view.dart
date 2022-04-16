@@ -1,7 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mynotes/firebase_options.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -31,55 +29,51 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login LOL')),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return Column(
-                children: [
-                  TextField(
-                      controller: _email,
-                      decoration:
-                          const InputDecoration(hintText: 'Enter Email'),
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      keyboardType: TextInputType.emailAddress),
-                  TextField(
-                    controller: _password,
-                    decoration:
-                        const InputDecoration(hintText: 'Enter Passwrodl'),
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      final email = _email.text;
-                      final password = _password.text;
-                      try {
-                        final userCredential = await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
-                                email: email, password: password);
-                        print(userCredential);
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'user-not-found') {
-                          print('User not Found');
-                        } else {
-                          print('$e something baaaaad happendddd');
-                        }
-                      }
-                    },
-                    child: const Text('Login'),
-                  ),
-                ],
+      appBar: AppBar(title: const Text('Login View')),
+      body: Column(
+        children: [
+          TextField(
+              controller: _email,
+              decoration: const InputDecoration(hintText: 'Enter Email'),
+              enableSuggestions: false,
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress),
+          TextField(
+            controller: _password,
+            decoration: const InputDecoration(hintText: 'Enter Passwrodl'),
+            obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
+          ),
+          TextButton(
+            onPressed: () async {
+              final email = _email.text;
+              final password = _password.text;
+              try {
+                final userCredential = await FirebaseAuth.instance
+                    .signInWithEmailAndPassword(
+                        email: email, password: password);
+                debugPrint('$userCredential');
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'user-not-found') {
+                  debugPrint('User not Found');
+                } else {
+                  debugPrint('$e something baaaaad happendddd');
+                }
+              }
+            },
+            child: const Text('Login'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                '/register/',
+                (route) => false,
               );
-            default:
-              return const Text('Loading...');
-          }
-        },
+            },
+            child: const Text('Not Registered? create an Account here!'),
+          )
+        ],
       ),
     );
   }
