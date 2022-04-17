@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
-import 'package:mynotes/firebase_options.dart';
+import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/notes_view.dart';
 import 'package:mynotes/views/register_view.dart';
@@ -15,7 +13,7 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: const HomePage(),
+    home:  HomePage(),
     routes: {
       loginRoute: (context) => const LoginView(),
       registerRoute: (context) => const RegisterView(),
@@ -26,19 +24,21 @@ void main() {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  final authProvider = AuthService.firebase();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform),
+      future: AuthService.firebase().initialize(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            final user = FirebaseAuth.instance.currentUser;
+            final user = authProvider.currentUser;
             if (user != null) {
-              if (user.emailVerified == false) { // shouldn't have "false"
+              if (user.isEmailVerified == false) {
+                // shouldn't have "false"
                 return const NotesView();
               }
               return const VerifyEmailVeiw();

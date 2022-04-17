@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/services/auth/auth_service.dart';
 
 class VerifyEmailVeiw extends StatefulWidget {
   const VerifyEmailVeiw({Key? key}) : super(key: key);
@@ -10,6 +10,8 @@ class VerifyEmailVeiw extends StatefulWidget {
 }
 
 class _VerifyEmailVeiwState extends State<VerifyEmailVeiw> {
+  final authProvider = AuthService.firebase();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,14 +23,13 @@ class _VerifyEmailVeiwState extends State<VerifyEmailVeiw> {
           TextButton(
             child: const Text("Haven't recieved an email? Send another"),
             onPressed: () async {
-              final user = FirebaseAuth.instance.currentUser;
-              await user?.sendEmailVerification();
+              await authProvider.sendEmailVerification();
             },
           ),
           TextButton(
             child: const Text('Restart'),
             onPressed: () async {
-              await FirebaseAuth.instance.signOut();
+              await authProvider.logOut();
               Navigator.of(context).pushNamedAndRemoveUntil(
                 registerRoute,
                 (route) => false,
