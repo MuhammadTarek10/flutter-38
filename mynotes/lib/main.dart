@@ -20,7 +20,7 @@ void main() {
       registerRoute: (context) => const RegisterView(),
       notesRoute: (context) => const NotesView(),
       verifyEmailRoute: (context) => const VerifyEmailVeiw(),
-      newNoteRoute:(context) => const NewNoteView(),
+      newNoteRoute: (context) => const NewNoteView(),
     },
   ));
 }
@@ -39,8 +39,7 @@ class HomePage extends StatelessWidget {
           case ConnectionState.done:
             final user = authProvider.currentUser;
             if (user != null) {
-              if (user.isEmailVerified == false) {
-                // shouldn't have "false"
+              if (user.isEmailVerified) {
                 return const NotesView();
               }
               return const VerifyEmailVeiw();

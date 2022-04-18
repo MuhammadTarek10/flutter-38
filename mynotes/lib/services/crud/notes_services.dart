@@ -27,7 +27,7 @@ class NotesService {
     try {
       final user = await getUser(email: email);
       return user;
-    } on CouldnotFindNoteException {
+    } on CouldnotFindUserException {
       final createdUser = await createUser(email: email);
       return createdUser;
     } catch (e) {
@@ -278,7 +278,7 @@ class DatabaseNote {
         userId = map[userIdColumn] as int,
         text = map[textColumn] as String,
         isSyncedWithCloud =
-            (map[isSyncedWithCloudColumn as int]) == 1 ? true : false;
+            (map[isSyncedWithCloudColumn] as int) == 1 ? true : false;
 
   @override
   String toString() =>
