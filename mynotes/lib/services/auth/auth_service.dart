@@ -8,6 +8,7 @@ class AuthService implements AuthProvider {
   AuthService(this.provider);
 
   factory AuthService.firebase() => AuthService(FirebaseAuthProvider());
+  
 
   @override
   Future<void> initialize() => provider.initialize();
