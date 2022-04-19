@@ -3,6 +3,7 @@ import 'package:mynotes/services/storage/cloud/cloud_note.dart';
 import 'package:mynotes/services/storage/cloud/cloud_storage_constants.dart';
 import 'package:mynotes/services/storage/cloud/cloud_storage_exceptions.dart';
 import 'package:mynotes/services/storage/local/crud_exceptions.dart';
+import 'dart:developer' as devtools show log;
 
 class FirebaseCloudStorage {
   final notes = FirebaseFirestore.instance.collection('notes');
