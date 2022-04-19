@@ -4,26 +4,27 @@ import 'package:flutter/foundation.dart';
 import 'package:mynotes/constants/database_columns.dart';
 import 'package:mynotes/constants/database_queries.dart';
 import 'package:mynotes/extensions/list/filter.dart';
+import 'package:mynotes/services/storage/storage_service.dart';
 import 'package:path_provider/path_provider.dart'
     show getApplicationSupportDirectory, MissingPlatformDirectoryException;
 import 'package:path/path.dart' show join;
 import 'package:sqflite/sqflite.dart';
-import 'package:mynotes/services/crud/crud_exceptions.dart';
+import 'package:mynotes/services/storage/local/crud_exceptions.dart';
 
-class NotesService {
+class SqlliteService {
   Database? _db;
 
   DatabaseUser? _user;
 
-  static final NotesService _shared = NotesService._sharedInstance();
-  NotesService._sharedInstance() {
+  static final SqlliteService _shared = SqlliteService._sharedInstance();
+  SqlliteService._sharedInstance() {
     _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
       onListen: () {
         _notesStreamController.sink.add(_notes);
       },
     );
   }
-  factory NotesService() => _shared;
+  factory SqlliteService() => _shared;
 
   List<DatabaseNote> _notes = [];
 
