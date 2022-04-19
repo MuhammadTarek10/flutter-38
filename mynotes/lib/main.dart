@@ -36,7 +36,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<AuthBloc>().add(const AuthEventInitialize());
-    return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
       if (state.isLoading) {
         LoadingScreen().show(
           context: context,
