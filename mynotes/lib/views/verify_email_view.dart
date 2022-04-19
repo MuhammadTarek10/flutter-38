@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
+import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
+import 'package:mynotes/services/auth/bloc/auth_event.dart';
 
 class VerifyEmailVeiw extends StatefulWidget {
   const VerifyEmailVeiw({Key? key}) : super(key: key);
@@ -23,17 +26,15 @@ class _VerifyEmailVeiwState extends State<VerifyEmailVeiw> {
           TextButton(
             child: const Text("Haven't recieved an email? Send another"),
             onPressed: () async {
-              await authProvider.sendEmailVerification();
+              context
+                  .read<AuthBloc>()
+                  .add(const AuthEventSendEmailVerification());
             },
           ),
           TextButton(
             child: const Text('Restart'),
             onPressed: () async {
-              await authProvider.logOut();
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                registerRoute,
-                (route) => false,
-              );
+              context.read<AuthBloc>().add(const AuthEventLogOut());
             },
           ),
         ],
