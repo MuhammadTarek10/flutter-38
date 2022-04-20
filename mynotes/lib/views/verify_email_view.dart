@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
 import 'package:mynotes/services/auth/bloc/auth_event.dart';
@@ -18,26 +18,38 @@ class _VerifyEmailVeiwState extends State<VerifyEmailVeiw> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Verify Email')),
-      body: Column(
-        children: [
-          const Text(
-              "We've sent you an email verification, please check your email"),
-          TextButton(
-            child: const Text("Haven't recieved an email? Send another"),
-            onPressed: () async {
-              context
-                  .read<AuthBloc>()
-                  .add(const AuthEventSendEmailVerification());
-            },
-          ),
-          TextButton(
-            child: const Text('Restart'),
-            onPressed: () async {
-              context.read<AuthBloc>().add(const AuthEventLogOut());
-            },
-          ),
-        ],
+      appBar: AppBar(
+        title: Text(
+          context.loc.verify_email,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Text(
+              context.loc.verify_email_view_prompt,
+            ),
+            TextButton(
+              child: Text(
+                context.loc.verify_email_send_email_verification,
+              ),
+              onPressed: () async {
+                context
+                    .read<AuthBloc>()
+                    .add(const AuthEventSendEmailVerification());
+              },
+            ),
+            TextButton(
+              child: Text(
+                context.loc.restart,
+              ),
+              onPressed: () async {
+                context.read<AuthBloc>().add(const AuthEventLogOut());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
