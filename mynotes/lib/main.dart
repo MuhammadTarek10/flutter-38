@@ -18,9 +18,10 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      title: 'Notes Flutter 38 Course',
+      title: 'Notes',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

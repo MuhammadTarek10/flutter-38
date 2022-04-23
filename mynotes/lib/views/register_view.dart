@@ -42,7 +42,9 @@ class _RegisterViewState extends State<RegisterView> {
         if (state is AuthStateReggistering) {
           if (state.exception is WeakPasswordAuthException) {
             await showErrorDialog(
-                context, context.loc.register_error_weak_password);
+              context,
+              context.loc.register_error_weak_password,
+            );
           } else if (state.exception is EmailAlreadyExistedException) {
             await showErrorDialog(
               context,
